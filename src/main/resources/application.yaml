@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: back-end
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# 文档配置
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha
+  group-configs:
+    - group: bis
+      display-name: "vue_chart后端接口文档"
+      paths-to-match: '/**'
+      packages-to-scan: com.zxb.backEnd
+  default-flat-param-object: true
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+    swagger-model-name: pojos
