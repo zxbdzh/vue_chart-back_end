@@ -3,5 +3,8 @@ server:
 spring:
   datasource:
     username: vue_chart
-    password: 000000
-    url: jdbc:mysql://localhost:3306
+    password: "000000"
+    url: jdbc:mysql://localhost:3306/vue_chart
+logging:
+  level:
+    sql: debug
