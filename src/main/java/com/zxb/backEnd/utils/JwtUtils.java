@@ -18,7 +18,7 @@ public class JwtUtils {
     /**
      * 过期时间(单位:秒)
      */
-    public static final int ACCESS_EXPIRE = 60;
+    public static final int ACCESS_EXPIRE = 36000;
     /**
      * 加密算法
      */
@@ -109,9 +109,6 @@ public class JwtUtils {
 
     /**
      * 校验token
-     *
-     * @param token
-     * @return
      */
     public static boolean validateToken(String token) {
         try {

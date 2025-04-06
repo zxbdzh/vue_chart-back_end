@@ -21,23 +21,29 @@ public class UserController {
     private final UserService userService;
 
     @Operation(summary = "查询用户信息")
-    @GetMapping("/userInfo")
+    @GetMapping("/info")
     public Result<User> getUserInfo() {
         Integer userId = UserContext.getUser().getId();
         if (userId == null) return Result.error("用户未登录");
-        return userService.getById(userId);
+        User user = userService.getById(userId);
+        if (user == null) return Result.error(401, "没有该用户！");
+        return Result.success(user);
     }
 
     @Operation(summary = "用户注册")
     @PostMapping("/register")
     public Result<String> register(@RequestBody UserDto userDto) {
-        return userService.register(userDto);
+        if (!userService.register(userDto)) return Result.error("注册失败");
+        return Result.success("注册成功");
     }
 
     @Operation(summary = "用户登录")
     @PostMapping("/login")
     public Result<String> login(@RequestBody UserDto userDto) {
-        return userService.login(userDto);
+        String token = userService.login(userDto);
+        if (token == null || token.isEmpty()) return Result.error("登录失败!");
+        if (token.equals("password error")) return Result.error("密码错误!");
+        return Result.success(token);
     }
 
 }
