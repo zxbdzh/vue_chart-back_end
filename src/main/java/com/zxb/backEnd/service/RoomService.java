@@ -16,4 +16,8 @@ public interface RoomService extends IService<Room> {
      * @return
      */
     Integer findByContactId(Integer id);
+
+    void createRoom(Integer id);
+
+    void deleteRoom(Integer id);
 }

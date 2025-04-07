@@ -32,4 +32,14 @@ public interface ContactService extends IService<Contact> {
      * @return
      */
     boolean removeContacts(List<Integer> ids);
+
+    /**
+     * 添加联系人
+     */
+    boolean addContact(Integer id);
+
+    /**
+     * 添加联系人
+     */
+    boolean addContact(String userName);
 }

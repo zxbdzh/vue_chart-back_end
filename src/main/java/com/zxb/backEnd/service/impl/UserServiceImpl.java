@@ -72,4 +72,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 登录成功,生成token
         return JwtUtils.genAccessToken(user);
     }
+
+    /**
+     * 检测用户是否存在
+     */
+    public boolean existUser(Integer id) {
+        return query().eq("id", id).exists();
+    }
+
+    @Override
+    public User findByUserName(String userName) {
+        return query().eq("username", userName).one();
+    }
 }

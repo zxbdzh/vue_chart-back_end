@@ -33,7 +33,7 @@ public class UserController {
     @Operation(summary = "用户注册")
     @PostMapping("/register")
     public Result<String> register(@RequestBody UserDto userDto) {
-        if (!userService.register(userDto)) return Result.error("用户已被注册");
+        if (!userService.register(userDto)) return Result.error("");
         return Result.success("注册成功");
     }
 

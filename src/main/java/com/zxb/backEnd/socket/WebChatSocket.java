@@ -13,8 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-@ServerEndpoint("/api/socket/{roomId}")
-public class WebSocketServer {
+@ServerEndpoint("/api/socket/chat/{roomId}")
+public class WebChatSocket {
 
     // 房间会话映射: roomId -> (sessionId -> Session)
     private static final ConcurrentHashMap<Integer, ConcurrentHashMap<String, Session>> roomSessions = new ConcurrentHashMap<>();
@@ -63,3 +63,4 @@ public class WebSocketServer {
     }
 
 }
+

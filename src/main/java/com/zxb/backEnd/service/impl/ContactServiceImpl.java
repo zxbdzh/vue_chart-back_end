@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author zxb
@@ -62,6 +63,7 @@ public class ContactServiceImpl extends ServiceImpl<ContactMapper, Contact>
 
     /**
      * 删除联系人
+     *
      * @param dto
      * @return
      */
@@ -72,7 +74,34 @@ public class ContactServiceImpl extends ServiceImpl<ContactMapper, Contact>
                         .lambda()
                         .eq(Contact::getId, UserContext.getUser().getId())
                         .eq(Contact::getContact, id))
+                && roomService.removeBatchByIds(List.of(roomService.findByContactId(id)))
         );
+    }
+
+    /**
+     * 添加联系人
+     *
+     * @param id
+     * @return
+     */
+    public boolean addContact(Integer id) {
+        if (!userService.existUser(id)) return false;
+        if (Objects.equals(id, UserContext.getUser().getId())) return false;
+        if (findContact(UserContext.getUser().getId(), id)) return false;
+        Contact contact = new Contact();
+        contact.setId(UserContext.getUser().getId());
+        contact.setContact(id);
+        return save(contact);
+    }
+
+    @Override
+    public boolean addContact(String userName) {
+        User user = userService.findByUserName(userName);
+        if (user == null) return false;
+        if (Objects.equals(user.getId(), UserContext.getUser().getId())) return false;
+        if (roomService.findByContactId(user.getId()) == null && findContact(user.getId(), UserContext.getUser().getId()))
+            roomService.createRoom(user.getId());
+        return addContact(user.getId());
     }
 }
 

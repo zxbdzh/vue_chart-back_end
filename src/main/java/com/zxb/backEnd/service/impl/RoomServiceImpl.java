@@ -1,5 +1,6 @@
 package com.zxb.backEnd.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zxb.backEnd.mapper.RoomMapper;
 import com.zxb.backEnd.pojos.Room;
@@ -25,9 +26,26 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room>
      * @return
      */
     public Integer findByContactId(Integer id) {
-        System.out.println(id);
-        System.out.println(UserContext.getUser().getId());
-        return query().eq("contact_id", id).eq("user_id", UserContext.getUser().getId()).or().eq("contact_id", UserContext.getUser().getId()).eq("user_id", id).one().getRoomId();
+        Room room = query()
+                .eq("contact_id", id)
+                .eq("user_id", UserContext.getUser().getId())
+                .or()
+                .eq("contact_id", UserContext.getUser().getId())
+                .eq("user_id", id)
+                .one(); // 先获取查询结果
+
+        return room != null ? room.getRoomId() : null; // 添加空值判断
+    }
+
+    public void createRoom(Integer id) {
+        Room room = new Room();
+        room.setUserId(UserContext.getUser().getId());
+        room.setContactId(id);
+        save(room);
+    }
+
+    public void deleteRoom(Integer id) {
+        if (id != null && query().eq("room_id", id).exists()) remove(new QueryWrapper<Room>().eq("room_id", id));
     }
 }
 

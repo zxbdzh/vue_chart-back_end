@@ -2,6 +2,7 @@ package com.zxb.backEnd.controller;
 
 import com.zxb.backEnd.pojos.vo.ContactVO;
 import com.zxb.backEnd.service.ContactService;
+import com.zxb.backEnd.service.RoomService;
 import com.zxb.backEnd.utils.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,5 +35,20 @@ public class ContactController {
         if (!contactService.removeContacts(ids)) return Result.error("删除失败");
         return Result.success("删除成功");
     }
+
+    @PostMapping("/{id}")
+    @Operation(summary = "添加联系人")
+    public Result<String> addContacts(@PathVariable Integer id) {
+        if (!contactService.addContact(id)) return Result.error("添加失败");
+        return Result.success("添加成功");
+    }
+
+    @PostMapping("/username/{userName}")
+    @Operation(summary = "根据用户名添加联系人")
+    public Result<String> addContactsByName(@PathVariable String userName) {
+        if (!contactService.addContact(userName)) return Result.error("添加失败");
+        return Result.success("添加成功");
+    }
+
 
 }
